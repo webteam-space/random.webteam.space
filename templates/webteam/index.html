@@ -1,0 +1,19 @@
+{% extends "_layout.html" %}
+
+{% block title %}Webteam{% endblock %}
+{% block description %}{% endblock %}
+
+{% block content %}
+<section class="p-strip--image p-hero--home">
+  <div class="row">
+    <div class="col-12">
+      <h1>Awesome people of the webteam!</h1>
+      <ul>
+        {% for name in display_names %}
+          <li>{{ name }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</section>
+{% endblock content %}

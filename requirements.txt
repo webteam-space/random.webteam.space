@@ -1,0 +1,10 @@
+Flask==1.0.2
+raven[flask]==6.5.0
+statsd<3.3.0
+prometheus_client==0.3.1
+talisker==0.9.16
+black==18.6b4
+pybreaker==0.4.4
+requests==2.20.0
+requests-cache==0.4.13
+prometheus_client==0.3.1
