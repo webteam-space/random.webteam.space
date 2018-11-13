@@ -2,7 +2,6 @@ import flask
 from werkzeug.contrib.fixers import ProxyFix
 from werkzeug.debug import DebuggedApplication
 
-import talisker.flask
 from webapp.handlers import add_headers, clear_trailing_slash
 from webapp.webteam.views import webteam
 
@@ -19,9 +18,6 @@ def create_app(testing=False):
 
     if app.debug:
         app.wsgi_app = DebuggedApplication(app.wsgi_app)
-
-    if not app.testing:
-        talisker.flask.register(app)
 
     app.before_request(clear_trailing_slash)
     app.after_request(add_headers)

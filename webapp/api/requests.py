@@ -3,24 +3,8 @@ from urllib.parse import urlparse
 
 import requests
 
-import prometheus_client
 import requests_cache
 from pybreaker import CircuitBreaker, CircuitBreakerError
-
-timeout_counter = prometheus_client.Counter(
-    "feed_timeouts", "A counter of timed out requests", ["domain"]
-)
-connection_failed_counter = prometheus_client.Counter(
-    "feed_connection_failures",
-    "A counter of requests which failed to connect",
-    ["domain"],
-)
-latency_histogram = prometheus_client.Histogram(
-    "feed_latency_seconds",
-    "Feed requests retrieved",
-    ["domain", "code"],
-    buckets=[0.25, 0.5, 0.75, 1, 2, 3],
-)
 
 
 class TimeoutHTTPAdapter(requests.adapters.HTTPAdapter):
@@ -55,12 +39,8 @@ class BaseSession:
                 super().request, method=method, url=url, **kwargs
             )
         except requests.exceptions.Timeout:
-            timeout_counter.labels(domain=domain).inc()
-
             raise Exception("The request to {} took too long".format(url))
         except requests.exceptions.ConnectionError:
-            connection_failed_counter.labels(domain=domain).inc()
-
             raise Exception(
                 "Failed to establish connection to {}.".format(url)
             )
@@ -68,10 +48,6 @@ class BaseSession:
             raise Exception(
                 "Requests are closed because of too many failures".format(url)
             )
-
-        latency_histogram.labels(
-            domain=domain, code=request.status_code
-        ).observe(request.elapsed.total_seconds())
 
         return request
 
