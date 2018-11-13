@@ -2,8 +2,7 @@
 
 set -e
 
-echo $1
-RUN_COMMAND="talisker.gunicorn webapp.app:create_app() --bind $1 --worker-class sync --workers 8 --name talisker-`hostname` --access-logfile -"
+RUN_COMMAND="talisker.gunicorn webapp.app:create_app() --bind 0.0.0.0:80 --worker-class sync --workers 8 --name talisker-`hostname` --access-logfile -"
 
 if [ "${FLASK_DEBUG}" = true ] || [ "${FLASK_DEBUG}" = 1 ]; then
     RUN_COMMAND="${RUN_COMMAND} --reload --log-level debug --timeout 9999"
