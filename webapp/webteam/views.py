@@ -1,6 +1,6 @@
 import random as rnd
 
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, request, jsonify
 
 from webapp.api import launchpad
 
@@ -27,8 +27,8 @@ def get_all_display_names():
 
             if not user["is_team"]:
                 if "display_name" in user:
-                    # TODO Remove Chris from canonical-webmonkeys
-                    if not user["display_name"] == "Chris Johnston":
+                    # TODO Remove Chris and David from canonical-webmonkeys
+                    if not user["display_name"] == "Chris Johnston" and not user["display_name"] == "David Callé":
                         display_names.append(user["display_name"])
                 else:
                     print("error")
@@ -40,7 +40,13 @@ def get_all_display_names():
 def index():
     display_names = get_all_display_names()
     display_names.sort()
-    return render_template("webteam/index.html", display_names=display_names)
+
+    if request.headers.get(
+        "Content-Type"
+    ) and "application/json" in request.headers.get("Content-Type"):
+        return jsonify(display_names)
+    else:
+        return render_template("webteam/index.html", display_names=display_names)
 
 
 @webteam.route("/random")
