@@ -1,7 +1,3 @@
-Flask==1.1.1
-black==18.6b4
+canonicalwebteam.flask-base==0.3.3
 requests==2.20.0
 requests-cache==0.4.13
-gunicorn
-Werkzeug==0.15.4
-talisker
