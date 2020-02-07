@@ -4,10 +4,11 @@
 {% block description %}{% endblock %}
 
 {% block content %}
-<section class="p-strip--image p-hero--home">
+<section class="p-strip">
   <div class="row">
     <div class="col-12">
       <h1>Awesome people of the webteam!</h1>
+      <p>Total: <strong>{{ display_names|length }}</strong></p>
       <ul>
         {% for name in display_names %}
           <li>{{ name }}</li>
