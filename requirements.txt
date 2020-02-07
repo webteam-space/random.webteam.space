@@ -3,3 +3,5 @@ black==18.6b4
 requests==2.20.0
 requests-cache==0.4.13
 gunicorn
+Werkzeug==0.15.4
+talisker
